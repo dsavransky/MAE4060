@@ -1,3 +1,8 @@
+% Plot various spherical harmonics and the resulting Earth shape
+
+% Copyright (c) 2014 Dmitry Savransky (ds264@cornell.edu)
+
+
 %grid
 load('topo.mat','topo','topomap1');
 phi = linspace(0,pi,50);

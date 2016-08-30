@@ -1,3 +1,7 @@
+% Animation of a Space Shuttle Loop around the ISS
+
+% Copyright (c) 2014 Dmitry Savransky (ds264@cornell.edu)
+
 %%
 load('topo.mat','topo','topomap1');
 

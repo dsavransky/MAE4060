@@ -1,5 +1,6 @@
 function varargout = planet_shape(varargin)
-% PLANET_SHAPE MATLAB code for planet_shape.fig
+% PLANET_SHAPE GUI for exploring spherical harmonics and resulting Earth
+% shapes.
 %      PLANET_SHAPE, by itself, creates a new PLANET_SHAPE or raises the existing
 %      singleton*.
 %
@@ -9,20 +10,10 @@ function varargout = planet_shape(varargin)
 %      PLANET_SHAPE('CALLBACK',hObject,eventData,handles,...) calls the local
 %      function named CALLBACK in PLANET_SHAPE.M with the given input arguments.
 %
-%      PLANET_SHAPE('Property','Value',...) creates a new PLANET_SHAPE or raises the
-%      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before planet_shape_OpeningFcn gets called.  An
-%      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to planet_shape_OpeningFcn via varargin.
-%
-%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
-%      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help planet_shape
-
-% Last Modified by GUIDE v2.5 26-Aug-2016 16:30:05
+% Copyright (c) 2016 Dmitry Savransky (ds264@cornell.edu)
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;

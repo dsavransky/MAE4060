@@ -1,3 +1,7 @@
+% Generate a plot of the effective potential as a function of radius
+
+% Copyright (c) 2016 Dmitry Savransky (ds264@cornell.edu)
+
 %set Umin and h
 Umin = 1
 h = 1
