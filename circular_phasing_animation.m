@@ -33,7 +33,7 @@ if gam > pi, gam = gam-2*pi; end
 
 th = linspace(0,2*pi,1000);
 dt = (th(2)-th(1))/n; %time step on target orbit
-pint = 2/length(th); %want one orbit to take 2 seconds to animate
+pint = 3/length(th); %want one orbit to take 3 seconds to animate
 
 Tphase = (2*pi*jtarg - gam)/n;
 aphase = (mu*(Tphase/(2*pi))^2)^(1/3);
@@ -66,6 +66,8 @@ introrbit = plot(rphase.*cos(nuphase),rphase.*sin(nuphase),'r--');
 axis equal off
 set(gca,'XLimMode','manual','YLimMode','manual')
 set(introrbit,'Visible','off')
+
+pause(1)
 
 %one orbit of following
 for j = 2:forbind
