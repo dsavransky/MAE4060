@@ -13,9 +13,6 @@ function dv = circular_phasing_animation(gam,jtarg)
 
 % Copyright (c) 2016 Dmitry Savransky (ds264@cornell.edu)
 
-
-%!!!!!!invKepler missing.
-
 if ~exist('gam','var') || isempty(gam)
     gam = 30;
 end
