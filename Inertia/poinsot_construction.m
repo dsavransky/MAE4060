@@ -1,7 +1,7 @@
 I = [1 2 3]; %principal moments of inertia
 
-%w = [2,3,4]; %angular velocity
-w = [1,0.5,0.25];
+w = [0.4,1.5,0.1]; %angular velocity
+%w = [1,0.5,0.25];
 n = w/norm(w); %axis of rotation
 
 [t,ws] = torque_free_motion([0,100],w(:),I);
@@ -10,6 +10,11 @@ n = w/norm(w); %axis of rotation
 xs = 1./sqrt(I(1) + I(2)*(ws(:,2)./ws(:,1)).^2 + I(3)*(ws(:,3)./ws(:,1)).^2);
 ys = xs.*ws(:,2)./ws(:,1);
 zs = xs.*ws(:,3)./ws(:,1);
+if max(diff(zs))/max(diff(xs)) > 10
+    xs(zs < 0) = -xs(zs < 0);
+    ys(zs < 0) = -ys(zs < 0);
+    zs(zs < 0) = -zs(zs < 0);
+end
 
 h = diag(I)*w.'; %angular momentum
 th = atan2(h(2),h(1));
@@ -62,7 +67,7 @@ for j = 2:length(t)
     thj = atan2(hj(2),hj(1));
     phj = acos(hj(3)/norm(hj));
     nj = ws(j,:)/norm(ws(j,:)); %axis of rotation
-    
+
     set(nax,'UData',nj(1),'VData',nj(2),'WData',nj(3))
     set(hax,'UData',hj(1)/norm(hj),'VData',hj(2)/norm(hj),'WData',hj(3)/norm(hj))
     set(g1,'Matrix',makehgtform('yrotate',pi-phj)*makehgtform('zrotate',-thj));
@@ -70,6 +75,9 @@ for j = 2:length(t)
     set(polhode,'XData',xs(1:j),'YData',ys(1:j),'ZData',zs(1:j))
     
     tmp = g1.Matrix*[xs(j),ys(j),zs(j),0].';
+    if tmp(3) > 0
+        tmp = -tmp;
+    end
     
     set(herpolhode,'XData',[get(herpolhode,'XData'),tmp(1)],...
         'YData',[get(herpolhode,'YData'),tmp(2)],...
