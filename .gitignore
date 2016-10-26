@@ -90,3 +90,5 @@ ENV/
 
 #MATLAB stuff
 *.m~
+
+.DS_Store
