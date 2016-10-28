@@ -1,6 +1,6 @@
 I = [1 2 3]; %principal moments of inertia
 
-w = [0.4,1.5,0.1]; %angular velocity
+w = [0.5,1.5,0.1]; %angular velocity
 %w = [1,0.5,0.25];
 n = w/norm(w); %axis of rotation
 
@@ -22,7 +22,7 @@ ph = acos(h(3)/norm(h));
 
 r1 = rotMatE1(-ph);
 
-close(1)
+if ishandle(1), close(1); end
 figure(1)
 set(1,'Position',[70,100,1200,1200])
 clf
@@ -83,5 +83,5 @@ for j = 2:length(t)
         'YData',[get(herpolhode,'YData'),tmp(2)],...
         'ZData',[get(herpolhode,'ZData'),tmp(3)])
     
-    pause(t(j)-t(j-1));
+    pause((t(j)-t(j-1))/2);
 end
