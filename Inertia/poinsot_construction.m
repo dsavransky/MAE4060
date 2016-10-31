@@ -20,8 +20,6 @@ h = diag(I)*w.'; %angular momentum
 th = atan2(h(2),h(1));
 ph = acos(h(3)/norm(h));
 
-r1 = rotMatE1(-ph);
-
 if ishandle(1), close(1); end
 figure(1)
 set(1,'Position',[70,100,1200,1200])
@@ -34,8 +32,7 @@ s1 = surface(xe,ye,ze,'FaceAlpha',0.2,'SpecularExponent',10,...
     'SpecularStrength',0.3,'FaceColor','b','Parent',g1);
 hold on
 %set up lighting
-l(1) = light('Position',[0 -1.5 0]);
-%l(2) = light('Position',[1.5 0.5 -0.5]);
+l = light('Position',[0 -1.5 0]);
 lighting phong
 shading interp
 
