@@ -4,7 +4,7 @@ w = [0.5,1.5,0.1]; %angular velocity
 %w = [1,0.5,0.25];
 n = w/norm(w); %axis of rotation
 
-[t,ws] = torque_free_motion([0,100],w(:),I);
+[t,ws] = torque_free_motion(linspace(0,100,1000),w(:),I);
 
 %intersection point of omega and ellipse
 xs = 1./sqrt(I(1) + I(2)*(ws(:,2)./ws(:,1)).^2 + I(3)*(ws(:,3)./ws(:,1)).^2);
@@ -54,9 +54,11 @@ polhode =  plot3(xs,ys,zs,'y','Linewidth',2,'Parent',g1);
 set(g1,'Matrix',makehgtform('yrotate',pi-ph)*makehgtform('zrotate',-th));
 
 tmp = g1.Matrix*[xs(1),ys(1),zs(1),0].';
-invplane = fill3([-1,-1,1,1,-1]*axmx,[-1,1,1,-1,-1]*axmx,[1,1,1,1,1]*tmp(3),'c','FaceAlpha',0.2,'EdgeColor','None');
+invplane = fill3([-1,-1,1,1,-1]*axmx,[-1,1,1,-1,-1]*axmx,[1,1,1,1,1]*tmp(3)*1.01,'c','FaceAlpha',0.2,'EdgeColor','None');
 
 herpolhode = plot3(tmp(1),tmp(2),tmp(3),'k','LineWidth',2);
+
+set(gca,'XTick',[],'YTick',[],'ZTick',[])
 %%
 for j = 2:length(t)
     
@@ -80,5 +82,5 @@ for j = 2:length(t)
         'YData',[get(herpolhode,'YData'),tmp(2)],...
         'ZData',[get(herpolhode,'ZData'),tmp(3)])
     
-    pause((t(j)-t(j-1))/2);
+    pause((t(j)-t(j-1)));
 end
