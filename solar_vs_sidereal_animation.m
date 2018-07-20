@@ -32,6 +32,13 @@ function solar_vs_sidereal_animation(varargin)
 %      A rotation of one sidereal day will leave the two sets of axes
 %      aligned, whereas one solar day will result in approximately a one
 %      degree misalignment between the axes.
+%
+% Examples:
+%      solar_vs_sidereal_animation(1) % 1 sidereal day
+%      solar_vs_sidereal_animation(1,'daytype','solar') % 1 solar day
+%      solar_vs_sidereal_animation(30,'daytype','solar') % 1 solar month
+%      solar_vs_sidereal_animation(365) % 1 year (approx)
+%      solar_vs_sidereal_animation('oneyear',true,'figure',2) % 1 year (exact)
 
 % Copyright (c) 2018 Dmitry Savransky (ds264@cornell.edu)
 
