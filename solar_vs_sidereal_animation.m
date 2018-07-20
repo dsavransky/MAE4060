@@ -1,4 +1,39 @@
 function solar_vs_sidereal_animation(varargin)
+% Animation for exploring solar vs sidereal time
+% 
+%      solar_vs_sidereal_animation, by itself, animates the rotation of the
+%      Earth over 1 sidereal day.
+%
+%      solar_vs_sidereal_animation(n) animates the rotation of the Earth
+%      over n days.
+%
+%      solar_vs_sidereal_animation(...,'daytype','solar'|'sidereal')
+%      toggles between solar and sidereal days (default sidereal).
+%
+%      solar_vs_sidereal_animation(...,'animlength',n) sets the duration of
+%      the full animation to n seconds (default 5).
+%
+%      solar_vs_sidereal_animation(...,'figure',f) creates the animation in
+%      figure f (default 1).
+%
+%      solar_vs_sidereal_animation(...,'oneyear',true) animates for exactly
+%      one year (defined by the mean (J2000) orbital characteristics of
+%      Earth's orbit) 
+%
+% Notes:
+%      The perspective of the animation is a viewer situated above the
+%      Earth and moving with the Earth on its orbit, but not rotating with
+%      the Earth about its axis.  The Earth is oriented with the pole axis
+%      along the viewer's vertical axis, so that the frame is effectively
+%      equatorial, with the ecliptic oriented at approximately 23.4 degrees
+%      from the equator. The red axes represent the original orientation of
+%      the Earth, and pass through the equator, prime meridian, and north
+%      pole. The blue axes rotate with the Earth throughout the animation.
+%      A rotation of one sidereal day will leave the two sets of axes
+%      aligned, whereas one solar day will result in approximately a one
+%      degree misalignment between the axes.
+
+% Copyright (c) 2018 Dmitry Savransky (ds264@cornell.edu)
 
 %input parsing
 p = inputParser;
@@ -96,8 +131,10 @@ axis equal off
 % Add sun
 sun = light('Position',rsun(:,1),'Style','local'); %light is effective point source at sun location
 
-for j = 2:length(t)
-    set(g,'Matrix',makehgtform('zrotate',w_e*t(j)))
-    pause(1/30)
-    set(sun,'Position',rsun(:,j))
+if ndays > 0
+    for j = 2:length(t)
+        set(g,'Matrix',makehgtform('zrotate',w_e*t(j)))
+        pause(1/30)
+        set(sun,'Position',rsun(:,j))
+    end
 end
