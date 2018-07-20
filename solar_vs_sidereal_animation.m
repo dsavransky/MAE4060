@@ -4,7 +4,9 @@ function solar_vs_sidereal_animation(varargin)
 p = inputParser;
 addOptional(p,'ndays', 1, @(x) isnumeric(x) && x>=0);
 addParameter(p,'daytype', 'sidereal', @(x) strcmpi(x,'sidereal') || strcmpi(x,'solar'));
-addParameter(p,'animlength', 10, @(x) isnumeric(x) && x>=0);
+addParameter(p,'animlength', 5, @(x) isnumeric(x) && x>=0);
+addParameter(p,'oneyear', false, @(x) islogical(x));
+addParameter(p,'figure', 1,  @(x) isnumeric(x) && floor(x) == x && x>0)
 parse(p,varargin{:});
 nframes = 30*p.Results.animlength; %30 fps 
 
@@ -30,11 +32,19 @@ mu = (1 + 1/sun_EM)*musun/(R_E^3); %Earth rad^3/s^2;
 n = sqrt(mu/a^3); %s^(-1)
 T_p = 2*pi/n; %orbital period in s
 
-%define time array
-if strcmpi(p.Results.daytype, 'sidereal')
-    t = linspace(0,p.Results.ndays*2*pi/w_e,nframes); %sidereal days
+if p.Results.oneyear
+    ndays = T_p/86400;
+    daytype = 'solar';
 else
-    t = linspace(0,p.Results.ndays*86400,nframes); %solar day
+    ndays = p.Results.ndays;
+    daytype = p.Results.daytype;
+end
+
+%define time array
+if strcmpi(daytype, 'sidereal')
+    t = linspace(0,ndays*2*pi/w_e,nframes); %sidereal days
+else
+    t = linspace(0,ndays*86400,nframes); %solar day
 end
 
 M = n*t;
@@ -57,26 +67,22 @@ vareps = 84381.412/3600*pi/180; %as->rad
 rotMat = [1 0 0; 0 cos(vareps) -sin(vareps); 0 sin(vareps) cos(vareps)]; %eclip->equat
 rsun = -rotMat*r; %r_Sun/E in equatorial coords
 
-%%
-load('topo.mat','topo','topomap1');
-earth = imread('landOcean.jpg');
+earth = imread('landOcean.jpg'); %read Earth map (should be in MATLAB demos dir)
 
-f1 = figure(1);
-clf
+f1 = figure(p.Results.figure);
+clf(f1)
 
-[x,y,z] = sphere(50);
-props.AmbientStrength = 0;  %0
-props.DiffuseStrength = 1;
-props.SpecularColorReflectance = .5;
+[x,y,z] = sphere(100);
+props.AmbientStrength = 0;  %no ambient light
+props.DiffuseStrength = 1;  %full diffuse illumination
+props.SpecularColorReflectance = 0.5;
 props.SpecularExponent = 1;
-props.SpecularStrength = 0.2;
+props.SpecularStrength = 0.45;
 props.FaceColor= 'texture';
 props.EdgeColor = 'none';
-props.FaceLighting = 'phong';
-%props.Cdata = topo;
+props.FaceLighting = 'gouraud';
 props.Cdata = earth;
 Earth = surface(x,y,flip(z),props);
-%rotate(Earth,[0,0,1],180) %align prime meridian 
 hold on
 g = hgtransform;
 oax = quiver3([0,0,0],[0,0,0],[0,0,0],[1.5,0,0],[0,1.5,0],[0,0,1.5],0,'Linewidth',2,'color','r');
@@ -86,13 +92,9 @@ Earth.Parent = g;
 view(50,10)
 axis([-1.5,1.5,-1.5,1.5,-1.5,1.5])
 axis equal off
-%colormap(topomap1)
 
 % Add sun
-sun = light('position',rsun(:,1));
-ax1 = gca;
-
-%%
+sun = light('Position',rsun(:,1),'Style','local'); %light is effective point source at sun location
 
 for j = 2:length(t)
     set(g,'Matrix',makehgtform('zrotate',w_e*t(j)))
