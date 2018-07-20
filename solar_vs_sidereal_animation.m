@@ -1,3 +1,13 @@
+function solar_vs_sidereal_animation(varargin)
+
+%input parsing
+p = inputParser;
+addOptional(p,'ndays', 1, @(x) isnumeric(x) && x>=0);
+addParameter(p,'daytype', 'sidereal', @(x) strcmpi(x,'sidereal') || strcmpi(x,'solar'));
+addParameter(p,'animlength', 10, @(x) isnumeric(x) && x>=0);
+parse(p,varargin{:});
+nframes = 30*p.Results.animlength; %30 fps 
+
 %constants
 R_E = 6378.1366*1000; %Earth radius (m)
 mAU = 149597870700; %AU in m
@@ -14,17 +24,19 @@ omega = varpi - Omega; %argument of periapsis (rad)
 
 w_e = 7.2921150e-5; %Earth rotation (rad/s) 
 
-
 musun = 1.32712440018e20; %m^3/s^2
 sun_EM = 328900.56; %mass ratio: sun/(Earth+Moon)
 mu = (1 + 1/sun_EM)*musun/(R_E^3); %Earth rad^3/s^2;
 n = sqrt(mu/a^3); %s^(-1)
 T_p = 2*pi/n; %orbital period in s
 
-%1 orbit:
-%t = linspace(0,T_p,1000); 
-t = linspace(0,90*2*pi/w_e,300); %sidereal days
-%t = linspace(0,86400,300); %solar day
+%define time array
+if strcmpi(p.Results.daytype, 'sidereal')
+    t = linspace(0,p.Results.ndays*2*pi/w_e,nframes); %sidereal days
+else
+    t = linspace(0,p.Results.ndays*86400,nframes); %solar day
+end
+
 M = n*t;
 E = invKepler(M,e);
 E = E.';
@@ -67,10 +79,12 @@ Earth = surface(x,y,flip(z),props);
 %rotate(Earth,[0,0,1],180) %align prime meridian 
 hold on
 g = hgtransform;
-eax = quiver3([0,0,0],[0,0,0],[0,0,0],[1.5,0,0],[0,1.5,0],[0,0,1.5],0,'Linewidth',2,'Parent',g);
+oax = quiver3([0,0,0],[0,0,0],[0,0,0],[1.5,0,0],[0,1.5,0],[0,0,1.5],0,'Linewidth',2,'color','r');
+eax = quiver3([0,0,0],[0,0,0],[0,0,0],[1.5,0,0],[0,1.5,0],[0,0,1.5],0,'Linewidth',2,'Parent',g,'color','b');
 hold off
 Earth.Parent = g;
-view(100,5)
+view(50,10)
+axis([-1.5,1.5,-1.5,1.5,-1.5,1.5])
 axis equal off
 %colormap(topomap1)
 
@@ -82,6 +96,6 @@ ax1 = gca;
 
 for j = 2:length(t)
     set(g,'Matrix',makehgtform('zrotate',w_e*t(j)))
-    pause(0.05)
+    pause(1/30)
     set(sun,'Position',rsun(:,j))
 end
