@@ -52,11 +52,12 @@ vareps = 84381.412/3600*pi/180; %as->rad
 f1 = figure(1);
 clf(f1)
 
-emult = 2000;
-smult = 10;
+emult = 2500;
+smult = 20;
 
+earth = imread('landOcean.jpg');
 [x,y,z] = sphere(100);
-props.AmbientStrength = 0;  %no ambient light
+props.AmbientStrength = 0.12;  %no ambient light
 props.DiffuseStrength = 1;  %full diffuse illumination
 props.SpecularColorReflectance = 0.5;
 props.SpecularExponent = 1;
@@ -64,9 +65,8 @@ props.SpecularStrength = 0.45;
 props.FaceColor= 'texture';
 props.EdgeColor = 'none';
 props.FaceLighting = 'gouraud';
-props.FaceColor = 'b';
-%Earth = surface(emult*x+r(1,1),emult*y+r(2,1),emult*z+r(3,1),props);
-Earth = surface(emult*x,emult*y,emult*z,props);
+props.Cdata = earth;
+Earth = surface(emult*x,emult*y,emult*flip(z),props);
 hold on
 
 props2.AmbientStrength = 1;  %no ambient light
@@ -79,17 +79,19 @@ Sun = surface(smult*R_S*x,smult*R_S*y,smult*R_S*z,props2);
 l = light('Position',[0,0,0],'Style','local');
 
 plot3(r(1,:),r(2,:),r(3,:),'b')
-h = hgtransform;
+
 eclipax = quiver3([0,0,0],[0,0,0],[0,0,0],[1.5*a,0,0],[0,1.5*a,0],[0,0,1.5*a],0,'Linewidth',2,'color','y');
-equatax = quiver3([0,0,0],[0,0,0],[0,0,0],[1.25*a,0,0],[0,1*a,0],[0,0,1.5*a],0,'Linewidth',2,'color','r','Parent',h);
+plot3([0,-a],[0,0],[0,0],'y--','Linewidth',2)
+plot3([0,0],[0,-a],[0,0],'y--','Linewidth',2)
+
+h = hgtransform;
+perifocalax = quiver3([0,0,0],[0,0,0],[0,0,0],[1.25*a,0,0],[0,1*a,0],[0,0,1.5*a],0,'Linewidth',2,'color','r','Parent',h);
+plot3([0,-a],[0,0],[0,0],'r--','Linewidth',2,'Parent',h)
 set(h,'Matrix',makehgtform('zrotate',omega));
-plot3([0,-a],[0,0],[0,0],'y--')
-plot3([0,0],[0,-a],[0,0],'y--')
 
 g = hgtransform;
 Earth.Parent = g;
-%eclipax = quiver3(repmat(r(1,1),1,3),repmat(r(2,1),1,3),repmat(r(3,1),1,3),emult*[1.5,0,0],emult*[0,1.5,0],emult*[0,0,1.5],0,'Linewidth',2,'color','b','Parent',g);
-eclipax = quiver3([0,0,0],[0,0,0],[0,0,0],emult*[2,0,0],emult*[0,2,0],emult*[0,0,2],0,'Linewidth',2,'color','b','Parent',g);
+equatax = quiver3([0,0,0],[0,0,0],[0,0,0],emult*[2,0,0],emult*[0,2,0],emult*[0,0,2],0,'Linewidth',2,'color','b','Parent',g);
 set(g,'Matrix',makehgtform('translate',r(:,1),'xrotate',-vareps));
 
 view(110,20)
@@ -103,8 +105,10 @@ axlim = axis();
 txt = text(0,1,0,'Perihelion ~ Jan 3','Units','normalized','Color','w','FontSize',36);
 
 btn = uicontrol('Style','togglebutton','String','Continue','FontSize',24,'Position',[0,0,150,40]);
-set(btn,'Visible','off')
+
 %%
+waitfor(btn,'value');
+
 %find points of interest
 poi = {'Vernal Equinox ~ Mar 20','Summer Solistice ~Jun 21','Aphelion ~ Jul 3','Autumnal Equinox ~ Sep 22','Winter Solstice ~ Dec 21', 'Perihelion ~ Jan 3'};
 [~,vei] = min(abs(nu + (omega - pi/2) - pi/2));
