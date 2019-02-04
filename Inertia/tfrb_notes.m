@@ -1,37 +1,34 @@
-function torque_free_rigid_body(varargin)
-
-p = inputParser;
-addOptional(p,'w0', [1,0.5,0.25], @(x) (numel(x) == 3) && isnumeric(x));
-addOptional(p,'I', [1,2,3], @(x) (numel(x) == 3) && isnumeric(x));
-addOptional(p,'t', linspace(0,100,1000),@(x) (numel(x) >=2) && ...
-                                              isnumeric(x) && issorted(x));
-addOptional(p,'angs0', [50,40,30]*pi/180, ...
-    @(x) (numel(x) == 3) && isnumeric(x));  
-addOptional(p,'poinsot',false, @(x) isscalar(x) && islogical(x));
-
-parse(p,width,varargin{:});
-
-w0 = p.Results.w0(:);
-I = p.Results.I;
-t = p.Results.t;
-if p.Results.poinsot
-    h = sqrt(I(1)^2*w0(1)^2 + I(2)^2*w0(2)^2 + I(3)^2*w0(3)^2);
-    a = I(1)*w0(1) + I(2)*w0(2);
-    psi0 = 0;
-    theta0 = atan2(-sqrt(I(1)^2*w0(1)^2 + I(2)^2*w0(2)^2),-I(3)*w0(3));
-    phi0 = atan2(I(1)*w0(1),I(2)*w0(2));
-else
-    psi0 = p.Results.angs0(1);
-    theta0 = p.Results.angs0(2);
-    phi0 = p.Results.angs0(3);
-end
-
 bCi313 = @(psi,theta,phi) [-sin(phi).*sin(psi).*cos(theta) + cos(phi).*cos(psi) sin(phi).*cos(psi).*cos(theta) + sin(psi).*cos(phi) sin(phi).*sin(theta); -sin(phi).*cos(psi) - sin(psi).*cos(phi).*cos(theta) -sin(phi).*sin(psi) + cos(phi).*cos(psi).*cos(theta) sin(theta).*cos(phi); sin(psi).*sin(theta) -sin(theta).*cos(psi) cos(theta)];
 
 omega2dang = @(psi,theta,phi,omega_1,omega_2,omega_3) [(omega_1.*sin(phi) + omega_2.*cos(phi))./sin(theta);omega_1.*cos(phi) - omega_2.*sin(phi);-omega_1.*sin(phi)./tan(theta) - omega_2.*cos(phi)./tan(theta) + omega_3];
 
 dang2omega = @(psi,theta,phi,psidot,thetadot,phidot) [psidot.*sin(phi).*sin(theta) + thetadot.*cos(phi), psidot.*sin(theta).*cos(phi) - thetadot.*sin(phi), phidot + psidot.*cos(theta)];
 
+
+%%
+I = [1 2 3]; %principal moments of inertia
+  w0 = [1,0.5,0.25];
+% w0 = [1,0,0];
+% w0 = [0,0,1];
+% w0 = [0,1,0];
+% w0 = [0,2,0]+1e-3;
+t = linspace(0,100,1000);
+
+%%
+[to,ws] = torque_free_motion(t,w0(:),I);
+
+%%
+% phi0 = 30*pi/180;
+% theta0 = 40*pi/180;
+% psi0 = 50*pi/180;
+
+h = sqrt(I(1)^2*w0(1)^2 + I(2)^2*w0(2)^2 + I(3)^2*w0(3)^2);
+a = I(1)*w0(1) + I(2)*w0(2);
+psi0 = 0;
+theta0 = atan2(-sqrt(I(1)^2*w0(1)^2 + I(2)^2*w0(2)^2),-I(3)*w0(3));
+phi0 = atan2(I(1)*w0(1),I(2)*w0(2));
+bCi0 = EulerAngs2DCM([psi0,theta0,phi0],[3,1,3]);
+bCi0.'*diag(I)*w0(:)
 
 
 dangs0 = omega2dang(psi0,theta0,phi0,w0(1),w0(2),w0(3));

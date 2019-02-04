@@ -1,7 +1,7 @@
 
 %set up figure
-if ishandle(2), close(2); end
-figure(2)
+if ishandle(256), close(256); end
+figure(256)
 
 %define principal moments of inertia and KE
 I = [1 2 3];

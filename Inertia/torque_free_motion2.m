@@ -13,17 +13,17 @@ function [t,z] = torque_free_motion2(t0,z0,I)
 
 % Copyright (c) 2017 Dmitry Savransky (ds264@cornell.edu)
 
-    %state  - [w1,w2,w3, ^A{C}^B(:)]
+    %state  - [w1,w2,w3, ^B{C}^A(:)]
     [t,z] = ode113(@eulers_eqs,t0,z0,odeset('RelTol',1e-16,'AbsTol',1e-16));
 
     function dz = eulers_eqs(~,z)
         dw = [z(2)*z(3)*(I(2)-I(3))/I(1);...
               z(3)*z(1)*(I(3)-I(1))/I(2);...
               z(1)*z(2)*(I(1)-I(2))/I(3)];
-        aCb = reshape(z(4:end),3,3);
+        bCa = reshape(z(4:end),3,3);
         w = skew(z(1:3));
-        daCb = aCb*w;
-        dz = [dw;daCb(:)];
+        dbCa = -w*bCa;
+        dz = [dw;dbCa(:)];
     end
 
 end

@@ -1,4 +1,4 @@
-function poinsot_construction(I,w,t,f)
+function poinsot_construction(I,w0,t,f)
 % POINSOT_CONSTRUCTION animates the Poinsot Construction
 %      POINSOT_CONSTRUCTION creates a new figure and runs an animation of
 %      the Poinsot construction using all default values.
@@ -24,9 +24,9 @@ if ~exist('I','var') || isempty(I)
     I = [1 2 3]; %principal moments of inertia
 end
 
-if ~exist('w','var') || isempty(w)
+if ~exist('w0','var') || isempty(w0)
     %w = [0.5,1.5,0.1]; %angular velocity
-    w = [1,0.5,0.25];
+    w0 = [1,0.5,0.25];
 end
 
 if ~exist('t','var') || isempty(t)
@@ -38,21 +38,30 @@ if ~exist('f','var') || isempty(f)
 end
 
 
-n = w/norm(w); %axis of rotation
-[to,ws] = torque_free_motion(t,w(:),I);
+n = w0/norm(w0); %axis of rotation
+[to,ws] = torque_free_motion(t,w0(:),I);
 
 %intersection point of omega and ellipse
-xs = 1./sqrt(I(1) + I(2)*(ws(:,2)./ws(:,1)).^2 + ...
-    I(3)*(ws(:,3)./ws(:,1)).^2);
-ys = xs.*ws(:,2)./ws(:,1);
-zs = xs.*ws(:,3)./ws(:,1);
-if max(diff(zs))/max(diff(xs)) > 10
-    xs(zs < 0) = -xs(zs < 0);
-    ys(zs < 0) = -ys(zs < 0);
-    zs(zs < 0) = -zs(zs < 0);
-end
+% xs = 1./sqrt(I(1) + I(2)*(ws(:,2)./ws(:,1)).^2 + ...
+%     I(3)*(ws(:,3)./ws(:,1)).^2);
+% ys = xs.*ws(:,2)./ws(:,1);
+% zs = xs.*ws(:,3)./ws(:,1);
+% 
+% if max(diff(zs))/max(diff(xs)) > 10
+%     xs(zs < 0) = -xs(zs < 0);
+%     ys(zs < 0) = -ys(zs < 0);
+%     zs(zs < 0) = -zs(zs < 0);
+% end
 
-h = diag(I)*w.'; %angular momentum
+polhode = zeros(size(ws));
+for j = 1:length(ws)
+polhode(j,:) = ws(j,:)/sqrt((ws(j,:)*diag(I)*ws(j,:).'));
+end
+xs = polhode(:,1);
+ys = polhode(:,2);
+zs = polhode(:,3);
+
+h = diag(I)*w0.'; %angular momentum
 th = atan2(h(2),h(1));
 ph = acos(h(3)/norm(h));
 
