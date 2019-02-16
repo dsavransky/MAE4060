@@ -30,6 +30,9 @@ phi0 = atan2(I(1)*w0(1),I(2)*w0(2));
 bCi0 = EulerAngs2DCM([psi0,theta0,phi0],[3,1,3]);
 bCi0.'*diag(I)*w0(:)
 
+hvec = diag(I)*w0.';
+dz = w0*hvec/h;
+T = w0*diag(I)*w0.'/2;
 
 dangs0 = omega2dang(psi0,theta0,phi0,w0(1),w0(2),w0(3));
 
@@ -49,7 +52,7 @@ for j = 1:length(z2)
     ws_I(j,:) = (tmp.'*ws_norm(j,:).').';
     hs_I(j,:) = (tmp.'*diag(I)*ws2(j,:).').';
     bCis(j,:,:) = tmp;
-    polhode(j,:) = ws2(j,:)/sqrt((ws2(j,:)*diag(I)*ws2(j,:).'));
+    polhode(j,:) = sqrt(2*T)*ws2(j,:)/sqrt((ws2(j,:)*diag(I)*ws2(j,:).'));
 end
 
 mats = bCis;
@@ -77,19 +80,19 @@ figure(1)
 clf
 g1 = hgtransform;
 axscale = 1.75;
-xscale = sqrt(1/I(1))*axscale;
-zscale = sqrt(1/I(3))*axscale;
+xscale = sqrt(2*T/I(1))*axscale;
+zscale = sqrt(2*T/I(3))*axscale;
 oscale  = 1.1;
-[xe,ye,ze]=ellipsoid(0,0,0,sqrt(1/I(1)),sqrt(1/I(2)),...
-    sqrt(1/I(3)),100);
+[xe,ye,ze]=ellipsoid(0,0,0,sqrt(2*T/I(1)),sqrt(2*T/I(2)),...
+    sqrt(2*T/I(3)),100);
 s1 = surface(xe,ye,ze,'FaceAlpha',0.8,'SpecularExponent',10,...
     'SpecularStrength',0.3,'FaceColor','b','Parent',g1);
 hold on
-xax = quiver3(0,0,0, sqrt(1/I(1))*axscale,0,0,'Linewidth',3,...
+xax = quiver3(0,0,0, xscale,0,0,'Linewidth',3,...
     'Color','r','Parent',g1,'AutoScale','off','MaxHeadSize',0.5);
-yax = quiver3(0,0,0, 0, sqrt(1/I(2))*axscale,0,'Linewidth',3,...
+yax = quiver3(0,0,0, 0, sqrt(2*T/I(2))*axscale,0,'Linewidth',3,...
     'Color','g','Parent',g1,'AutoScale','off','MaxHeadSize',0.5);
-zax = quiver3(0,0,0,0,0,sqrt(1/I(3))*axscale,'Linewidth',3,...
+zax = quiver3(0,0,0,0,0,sqrt(2*T/I(3))*axscale,'Linewidth',3,...
     'Color','b','Parent',g1,'AutoScale','off','MaxHeadSize',0.5);
 omegaax = quiver3(0,0,0,ws_norm(1,1)*oscale,ws_norm(1,2)*oscale,...
     ws_norm(1,3)*oscale,'Linewidth',3,'Color','k','Parent',g1,...
