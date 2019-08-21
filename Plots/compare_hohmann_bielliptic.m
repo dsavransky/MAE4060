@@ -18,7 +18,7 @@ plot(eta,xiinf,'k--','LineWidth',3)
 xis = [2,15.58171,50,100];
 legvals = {'Hohmann','$\xi=\infty$'};
 for j=1:length(xis)
-    plot(eta,xicalc(xis(j)))
+    plot(eta,xicalc(xis(j)),'LineWidth',2)
     legvals{j+2} = ['$\xi=',num2str(xis(j)),'$'];
 end
 
