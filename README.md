@@ -10,4 +10,7 @@ MATLAB code was all written/tested in various versions up to R2018b, but should 
 For static views of the Jupyter Notebooks go to http://nbviewer.jupyter.org/github/dsavransky/MAE4060/blob/master/Notebooks/
 These notebooks are written in Python 2.7 and 3.7 and use Sympy 1.0.  They also use sympyhelpers.py from https://github.com/dsavransky/miscpy/blob/master/utils/sympyhelpers.py
 
-The Handouts directory contains lecture slide Handouts that accompany the course.  Please note that the handouts are *not* the lectures and do not provide the entirety of the content of the lectures.
+The Handouts directory contains lecture slide Handouts that accompany the course.  Please note that the handouts are *not* the lectures and do not provide the entirety of the content of the lectures. The contents of the Handouts directory only are licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+
+The remainder of this repository is licensed under the MIT license. 
