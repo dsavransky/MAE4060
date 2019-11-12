@@ -19,22 +19,23 @@ z0 = [0.2, 2, 0, 0]; % rad/s
 [t,z] = ode45(@nutationDamper_eq,[0,400],z0);
 
 %plot
-figure(f)
+f = figure(f)
 clf
+set(f,'Position',[100 100 1000 600]);
 subplot(3,1,1)
 plot(t,z(:,2),'k')
-set(gca,'FontName','Times','FontSize',16)
+set(gca,'FontName','Times','FontSize',18)
 ylabel('$\omega_2$ (rad)','Interpreter','LaTeX')
 subplot(3,1,2)
-set(gca,'LineStyleOrder','-|--','ColorOrder',[0,0,0],...
-    'NextPlot','replacechildren','FontName','Times','FontSize',16)
+set(gca,'LineStyleOrder','-|--','ColorOrder',[0,0,0;],...
+    'NextPlot','replacechildren','FontName','Times','FontSize',18)
 plot(t,z(:,[1,3]))
 ylabel('(rad)')
 legend({'$\omega_1$','$\omega_3$'},'Interpreter','LaTeX',...
-    'Location','best')
+    'Location','northeast','FontName','Times','FontSize',18)
 subplot(3,1,3)
 plot(t,z(:,4),'k')
-set(gca,'FontName','Times','FontSize',16)
+set(gca,'FontName','Times','FontSize',18)
 ylabel('$\Omega$ (rad)','Interpreter','LaTeX')
 xlabel('Time (s)')
 
