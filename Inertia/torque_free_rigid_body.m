@@ -83,7 +83,7 @@ h_I = bCi0.'*diag(I)*ws(1,:).'/h; %inertia angular momentum
 %inertial frame
 figure(1)
 clf
-set(1,'Position',[61 251 560 420])
+set(1,'Position',[0 215 400 300])
 g1 = hgtransform;
 axscale = 1.75;
 xscale = sqrt(T2/I(1))*axscale;
@@ -150,7 +150,7 @@ camzoom(gca,2)
 %body frame
 figure(2)
 clf
-set(2,'Position',[622 249 560 420])
+set(2,'Position',[400 215 400 300])
 s2 = surface(xe,ye,ze,'FaceAlpha',0.8,'SpecularExponent',10,...
     'SpecularStrength',0.3,'FaceColor','b');
 hold on
