@@ -78,7 +78,7 @@ props2.FaceColor = 'y';
 Sun = surface(smult*R_S*x,smult*R_S*y,smult*R_S*z,props2);
 l = light('Position',[0,0,0],'Style','local');
 
-plot3(r(1,:),r(2,:),r(3,:),'b')
+plot3(r(1,:),r(2,:),r(3,:),'b','Linewidth',2)
 
 eclipax = quiver3([0,0,0],[0,0,0],[0,0,0],[1.5*a,0,0],[0,1.5*a,0],[0,0,1.5*a],0,'Linewidth',2,'color','y');
 plot3([0,-a],[0,0],[0,0],'y--','Linewidth',2)
