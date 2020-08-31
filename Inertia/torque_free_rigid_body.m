@@ -80,10 +80,12 @@ mats(:,4,4) = 1;
 bCi0 = squeeze(bCis(1,:,:)); %initial DCM
 h_I = bCi0.'*diag(I)*ws(1,:).'/h; %inertia angular momentum 
 
+sz = get(0,'Screensize');
 %inertial frame
 figure(1)
 clf
-set(1,'Position',[0 215 400 300])
+%set(1,'Position',[0 215 400 300])
+set(1,'Position',[0 sz(4)-sz(3)*3/8 sz(3)/2 sz(3)*3/8])
 g1 = hgtransform;
 axscale = 1.75;
 xscale = sqrt(T2/I(1))*axscale;
@@ -150,7 +152,8 @@ camzoom(gca,2)
 %body frame
 figure(2)
 clf
-set(2,'Position',[400 215 400 300])
+%set(2,'Position',[400 215 400 300])
+set(2,'Position',[sz(3)/2 sz(4)-sz(3)*3/8 sz(3)/2 sz(3)*3/8])
 s2 = surface(xe,ye,ze,'FaceAlpha',0.8,'SpecularExponent',10,...
     'SpecularStrength',0.3,'FaceColor','b');
 hold on
