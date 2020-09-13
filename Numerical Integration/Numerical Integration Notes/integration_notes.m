@@ -53,3 +53,5 @@ mean(abs( (res4(2:end,:)-res3(2:end,:))./res3(2:end,:) )*100) %percent error, pr
 [t5,res5] = sphericalPendulum(l,z0);
 
 %odeset() - to set options
+
+[t6,res6] = ode45(dz1,tspan,z0,odeset('RelTol',1e-12,'AbsTol',1e-12));
