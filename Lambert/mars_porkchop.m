@@ -1,5 +1,4 @@
-
-%%
+%% Set up general position/velocity functions
 Afun = @(a,e,I,omega,Omega) [a.*(cos(Omega).*cos(omega) - sin(Omega).*cos(I).*sin(omega));...
     a.*(sin(Omega).*cos(omega) + cos(Omega).*cos(I).*sin(omega));...
     a.*sin(I).*sin(omega)];
@@ -15,7 +14,7 @@ Mfun = @(n,t,t_p) mod(n*(t - t_p),2*pi);
 rfun = @(A,B,E,e) A*(cos(E) - e) + B*sin(E);
 vfun = @(A,B,E,e,n) (n/(1 - e*cos(E)))*(-A*sin(E) + B*cos(E));
 
-%%
+%% Define orbital elements for Earth and Mars
 a_e =  1.000373836656026E+00 ; %AU
 a_m = 1.523627165631874E+00;
 e_e = 1.712127710968187E-02;
@@ -31,6 +30,7 @@ t_p_m = 2459064.988962875679;
 mu_e = 2.9591309705483544E-04; %AU^3/day^2
 mu_m = 2.9591230378107436E-04; 
 
+% Mean motions
 n_e = sqrt(mu_e/a_e^3);
 n_m = sqrt(mu_m/a_m^3);
 
@@ -69,7 +69,7 @@ figure(1)
 clf
 plot3(r_es(1,:),r_es(2,:),r_es(3,:),r_ms(1,:),r_ms(2,:),r_ms(3,:))
 
-%% check 2 - reference traj
+%% check 2 - reference trajectory
 t1 = juliandate(datetime('2020-08-03'));
 t2 = juliandate(datetime('2021-02-11'));
 
@@ -117,7 +117,7 @@ C3s0 = norm((v0s - v1)*kmAU/86400)^2
 vinfl0 = norm((vl - v2)*kmAU/86400) % mars rel vel km/s
 vinfs0 = norm((vs - v2)*kmAU/86400)
 
-%%
+%% Now lets populate the whole porkchop
 dtf = juliandate(datetime('2020-10-01'));
 tdep = t0:1:dtf;
 tarr0 = juliandate(datetime('2020-12-01'));

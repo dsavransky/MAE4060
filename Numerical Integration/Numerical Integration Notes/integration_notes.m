@@ -55,3 +55,18 @@ mean(abs( (res4(2:end,:)-res3(2:end,:))./res3(2:end,:) )*100) %percent error, pr
 %odeset() - to set options
 
 [t6,res6] = ode45(dz1,tspan,z0,odeset('RelTol',1e-12,'AbsTol',1e-12));
+
+
+[t7,res7] = ode45(dz1,tspan,z0,odeset('RelTol',1e-12));
+[t8,res8] = ode45(dz1,tspan,z0,odeset('AbsTol',1e-12));
+
+%%
+En = @(ph,phd,thd,l,g) -g*l*cos(ph) + l^2*phd.^2/2 + l^2*thd.^2.*sin(ph).^2/2;
+
+En1 = En(res1(:,1),res1(:,2),res1(:,4),l,g); %defaults ode45
+En4 = En(res4(:,1),res4(:,2),res4(:,4),l,g); %defaults ode113
+En6 = En(res6(:,1),res6(:,2),res6(:,4),l,g); %reltol = abstol = 1e-12
+En7 = En(res7(:,1),res7(:,2),res7(:,4),l,g); %reltol=1e-12, default abstol
+En8 = En(res8(:,1),res8(:,2),res8(:,4),l,g); %abstol=1e-12, defatul reltol
+
+plot(t,En1,t,En4,t,En6,t,En7,t,En8)
