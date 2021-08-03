@@ -1,3 +1,8 @@
+%Plot the basic geometry of a long. of ascending node change on a circular orbit
+
+%Copyright (c) 2019 Dmitry Savransky (ds264@cornell.edu)
+
+%%
 %circular orbit
 th = linspace(0,2*pi,1000);
 r = [cos(th);sin(th);zeros(size(th))];

@@ -1,3 +1,7 @@
+% Plots and Animations for the Circular Restricted 3-Body Problem
+
+% Copyright (c) 2014 Dmitry Savransky
+
 %% Hill Curves and Surface
 mu = 0.3;
 x = linspace(-1.5,1.5,1000);
