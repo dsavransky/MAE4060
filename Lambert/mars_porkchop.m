@@ -1,3 +1,7 @@
+%Generate the Mars Porkchop Plot for the 2020 Transfer Opportunity
+
+%Copyright (c) 2020 Dmitry Savransky (ds264@cornell.edu)
+
 %% Set up general position/velocity functions
 Afun = @(a,e,I,omega,Omega) [a.*(cos(Omega).*cos(omega) - sin(Omega).*cos(I).*sin(omega));...
     a.*(sin(Omega).*cos(omega) + cos(Omega).*cos(I).*sin(omega));...

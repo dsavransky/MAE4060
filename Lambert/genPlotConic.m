@@ -1,4 +1,18 @@
 function genPlotConic(Fs,a,e,f,subsc,subscPos,col,stickax)
+%Plot a transfer conic in the Lambert Problem
+%
+%INPUT
+%   Fs (1x2 float) x and y components of vector from focus (central body)
+%                  to minimum energy vacant focus
+%   a (float)      semi-major axis of transfer orbit
+%   e (float)      eccentricity of transfer orbit
+%   f (int)        figure number to plot in
+%   subscPos (char)   'top' or 'bottom' position of annotation
+%   col (color specifier) 
+%   stickax (bool) If True, retain previous axes. 
+
+%Copyright (c) 2009 Dmitry Savransky (ds264@cornell.edu)
+
 
 if ~exist('subsc','var') || isempty(subsc)
     subsc = '';

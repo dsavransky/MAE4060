@@ -8,8 +8,6 @@ function [t,w] = torque_free_motion(t0,w0,I)
 %   (a 3 element array) over a time span t0 (a monotonically increasing
 %   array of at least 2 elements) with initial angular velocities w0 (a 3  
 %   element array).
-%
-%SEE ALSO: ode45
 
 % Copyright (c) 2017 Dmitry Savransky (ds264@cornell.edu)
 

@@ -1,3 +1,7 @@
+%Lambert Problem Non-Dimensionalized Solution Plot, based on Kaplan (1976)
+
+%Copyright (c) 2021 Dmitry Savransky (ds264@cornell.edu)
+
 %% Time functions
 alph = @(s,a) 2*asin(sqrt(s/2./a));
 bet = @(s,a,c) 2*asin(sqrt((s-c)/2./a));

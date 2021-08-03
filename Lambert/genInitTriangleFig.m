@@ -1,4 +1,14 @@
 function genInitTriangleFig(r1v,r2v,f)
+%Plot the basic geometry of the Lambert problem
+%
+%INPUT
+%   r1v (1x2 float) x and y components of vector from focus (central body)
+%                   to origin of trajectory 
+%   r2v (1x2 float) x and y components of vector from focus (central body)
+%                   to destination of trajectory 
+%   f   (int)       Figure number to plot in
+
+%Copyright (c) 2009 Dmitry Savransky (ds264@cornell.edu)
 
 msize = 20;
 figure(f)
@@ -19,5 +29,6 @@ hold off
 %annotate
 shim = max(diff(axis))*0.02/3;
 text(0, 0,'$$F$$','HorizontalAlignment','left','VerticalAlignment','top')
-text(r1v(1)-shim,r1v(2),'$$P_1$$','HorizontalAlignment','right','VerticalAlignment','bottom')
+text(r1v(1)-shim,r1v(2),'$$P_1$$','HorizontalAlignment','right',...
+    'VerticalAlignment','bottom')
 text(r2v(1),r2v(2),'$$P_2$$','VerticalAlignment','bottom')

@@ -1,4 +1,7 @@
-%Draw figure with all departure regions and transfer orbit types
+%Draw figure with all departure regions and transfer orbit types for the
+%Lambert Problem.
+
+%Copyright (c) 2009 Dmitry Savransky (ds264@cornell.edu)
 
 % define the vectors
 r1 = 1;

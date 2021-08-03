@@ -1,4 +1,20 @@
 function rE = genPlotConicTrunc(Fs,a,e,f,r1v,r2v,col,branch)
+%Plot a segment of a transfer conic in the Lambert Problem
+%
+%INPUT
+%   Fs (1x2 float) x and y components of vector from focus (central body)
+%                  to minimum energy vacant focus
+%   a (float)      semi-major axis of transfer orbit
+%   e (float)      eccentricity of transfer orbit
+%   f (int)        figure number to plot in
+%   r1v (1x2 float) x and y components of vector from focus (central body)
+%                   to origin of trajectory 
+%   r2v (1x2 float) x and y components of vector from focus (central body)
+%                   to destination of trajectory 
+%   col (color specifier) 
+%   branch (int)    If 1 plot short way, otherwise long way. 
+
+%Copyright (c) 2009 Dmitry Savransky (ds264@cornell.edu)
 
 w = atan2(Fs(2),Fs(1));
 if a > 0
