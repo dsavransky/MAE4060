@@ -1,5 +1,8 @@
+% Visualization of the Kinetic Energy Ellipsoid. 
 
-%set up figure
+%Copyright (c) 2009 Dmitry Savransky (ds264@cornell.edu)
+
+% set up figure
 if ishandle(256), close(256); end
 figure(256)
 
@@ -19,7 +22,7 @@ l(1) = light('Position',[0 1.5 0]);
 lighting phong
 shading interp
 cs = colormap('gray');
-cs = cs(30:50,:);
+%cs = cs(30:50,:); unnecessary in newer MATLAB (after 2020a)
 colormap(cs)
 view(3)
 axis equal

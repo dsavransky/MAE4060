@@ -1,8 +1,19 @@
 function anim_hill_orbits(reforb,hillorb_rot,M,dt)
+%anim_hill_orbits animates relative motion orbits in the inertial and
+%rotation (Euler-Hill) referece frames
+%
+%Inputs:
+%   reforb      (2xn float) Reference orbit x and y positions
+%   hillorb_rot (2xn float) Rotating frame orbit x and y positions
+%   M           (1xn float) Ref. orbit mean anomalies
+%   dt          (scalar float) Time step
+
+% Copyright Dmitry Savransky (ds264@cornell.edu) 2016
 
 hillorb = hillorb_rot;
 for j = 1:length(M)
-    hillorb(:,j) = [cos(M(j)), -sin(M(j)); sin(M(j)) ,cos(M(j))]*hillorb_rot(:,j);
+    hillorb(:,j) = [cos(M(j)), -sin(M(j));...
+        sin(M(j)) ,cos(M(j))]*hillorb_rot(:,j);
 end
 hillorb = hillorb + reforb;
 
@@ -22,7 +33,8 @@ set(gca,'Xlim',[-max(abs(hillorb(:))),max(abs(hillorb(:)))],...
 
 
 f2 = figure(2);
-f2.Position = [f1.Position(1)+f1.Position(3)+1,f1.Position(2),f2.Position(3:4)];
+f2.Position = [f1.Position(1)+f1.Position(3)+1,...
+    f1.Position(2),f2.Position(3:4)];
 clf
 hold on
 plot(0,0,'b.','MarkerSize',50);

@@ -1,3 +1,5 @@
+%A collection of Euler-Hill (Clohessy-Wiltshire) Orbits
+
 %% case 1 - s = 0
 n = 1;
 r1 = 1;

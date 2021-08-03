@@ -1,5 +1,11 @@
-% Animation of a Space Shuttle Loop around the ISS
+% Animation of a Space Shuttle Loop around the ISS based on the
+% Clohessy-Wiltshire equations. 
 
+% The red sphere represents the ISS and the blue sphere represents the
+% shuttle.  The view in Figure 1 is a quasi-inertial one, with the observer
+% moving with the Earth but not orbiting it.  The Figure 2 view is the view
+% from the shuttle.
+%
 % Copyright (c) 2014 Dmitry Savransky (ds264@cornell.edu)
 
 %%
@@ -31,8 +37,8 @@ clf
 props.AmbientStrength = 0.1;
 props.DiffuseStrength = 1;
 props.SpecularColorReflectance = .5;
-props.SpecularExponent = 20;
-props.SpecularStrength = 1;
+props.SpecularExponent = 1;
+props.SpecularStrength = 0.5;
 props.FaceColor= 'texture';
 props.EdgeColor = 'none';
 props.FaceLighting = 'phong';
