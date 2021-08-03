@@ -1,4 +1,34 @@
 function torque_free_rigid_body(varargin)
+% torque_free_rigid_body animates a rigid body undergoing torque free
+% motion in both an inertial and a body-fixed frame.
+%
+% torque_free_rigid_body creates two figures displaying the motion of a
+% rigid body undergoing torque free motion in an inertial (figure 1) and
+% body-fixed (figure 2) frame.  The body is represented in both frames via
+% its inertia ellipsoid. Polhodes are traced in black solid lines.  The
+% red, green, and blue lines represent the three body-fixed axes, the black
+% line represents the angular velocity direction, and the gray line
+% represents the angular momentum direction (fixed in inertial space).
+% Dashed lines in the inertial view represent traces  of the associated
+% axes in space.    
+%      
+% Optional Inputs:
+%   w0 (1x3 float): Initial angular velocity (rad/time unit)
+%   I  (1x3 float): Body principal moments of inertia 
+%   t  (1xn float): Time array to simulate motion over. Must be
+%                   monotonically increasing. Must have same time units as
+%                   w0
+%   angs0 (1x3 float): Initial orientation encoded as 3-2-3 Euler angles
+%                      (rad). Ignored if 'poinsot' is True.
+%   poinsot (bool): If True, orient inertial view such that the angular
+%                   momentum vector points down, draw the invariable plane
+%                   and the herpolhode (Poinsot construction). 
+%   xtrace (bool): Draw trace of body-fixed x axis in inertial view
+%   ytrace (bool): Draw trace of body-fixed y axis in inertial view
+%   ztrace (bool): Draw trace of body-fixed z axis in inertial view
+%   animate (bool): Show animation.  If False, show final view only.
+
+% Copyright (c) 2020 Dmitry Savransky (ds264@cornell.edu)
 
 p = inputParser;
 addOptional(p,'w0', [1,0.5,0.25], @(x) (numel(x) == 3) && isnumeric(x));

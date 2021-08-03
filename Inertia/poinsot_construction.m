@@ -1,5 +1,6 @@
 function poinsot_construction(I,w0,t,f)
-% POINSOT_CONSTRUCTION animates the Poinsot Construction
+% POINSOT_CONSTRUCTION animates the Poinsot Construction. This routine is
+% now deprecated and replaced by torque_free_rigid_body
 %      POINSOT_CONSTRUCTION creates a new figure and runs an animation of
 %      the Poinsot construction using all default values.
 %
@@ -19,6 +20,8 @@ function poinsot_construction(I,w0,t,f)
 
 
 % Copyright (c) 2017 Dmitry Savransky (ds264@cornell.edu)
+
+warning('This routine is deprecated.  Use torque_free_rigid_body instead.')
 
 if ~exist('I','var') || isempty(I)
     I = [1 2 3]; %principal moments of inertia

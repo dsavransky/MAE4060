@@ -1,3 +1,5 @@
+% Various examples of torque free motion
+
 binet_construction
 %%
 torque_free_rigid_body('w0', [2,0.5,0.5])

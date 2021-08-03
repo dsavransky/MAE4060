@@ -24,3 +24,6 @@ hold on
 t1 = linspace(t(1),t(end),50);
 plot(t1,w0*cos(wn*t1),'o',t1,w0*sin(wn*t1),'o')
 set(gca,'FontName','Times','FontSize',16)
+xlabel('Time (s)')
+ylabel('Angular Velocity (rad/s)')
+legend({'$\omega_1$','$\omega_2$'},'Interpreter','LaTeX','FontSize',16)
