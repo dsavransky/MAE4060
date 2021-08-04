@@ -1,17 +1,23 @@
-%investigating several flavors of MATLAB integration
+% This script demonstrates several approaches to MATLAB numerical
+% integration using the equations of motion for a spherical pendulum.
+% For the derivation of the equations of motion, see the
+% spherical_pendulum_deriv.mlx live scrip in the Notebooks folder. 
 
-%define some constants
+% Copyright (c) 2020 Dmitry Savransky (ds264@cornell.edu)
+
+%% define some constants
 g = 9.81; %m/s
 l = 1; %m
 
 %this is our integrator function (equations of motion of a spherical
-%pendulum)
-%z = [phi, phidot, theta, thetadot]
+%pendulum).  phi and theta are the The state variable is defined as:
+%z = [phi, phidot, theta, thetadot].'
 dz1 = @(t,z) [z(2);
             z(4)^2*sin(z(1))*cos(z(1)) - g/l*sin(z(1));
             z(4);
             -2*z(4)*z(2)/tan(z(1))];
-
+%we also define the exact same thing in helper function
+%sphericalPendulum_eom
  
 %initial conditions (must match state order set in integrator function
 z0 = [30*pi/180,0,0,1];   
@@ -30,6 +36,7 @@ tspan = linspace(0,30,1000);
 
 sum(res1 - res2) %all zeros!
 
+%%
 %another option - leave g and l as parameters, and wrap two nested lambda
 %functions
 dz2 = @(t,z,g,l) [z(2);
@@ -39,9 +46,15 @@ dz2 = @(t,z,g,l) [z(2);
 dz3 = @(t,z) dz2(t,z,9.81,1);
 [t3,res3] = ode45(dz3,tspan,z0);
 
+%or, write a helper function with a nest integrator subfunction:
+[t3a,res3a] = sphericalPendulum(l,z0);
+
 %again the same result
 sum(res3 - res1) %all zero again!
+sum(res3a - res1) %all zero again!
 
+
+%%
 %now with a different integrator
 [t4,res4] = ode113(dz1,tspan,z0);
 
@@ -49,9 +62,8 @@ sum(res4 - res1) %not zero!
 
 mean(abs( (res4(2:end,:)-res3(2:end,:))./res3(2:end,:) )*100) %percent error, pretty high actually
 
-%yet another way of packaging everything
-[t5,res5] = sphericalPendulum(l,z0);
 
+%%
 %odeset() - to set options
 
 [t6,res6] = ode45(dz1,tspan,z0,odeset('RelTol',1e-12,'AbsTol',1e-12));

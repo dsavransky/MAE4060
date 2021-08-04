@@ -1,6 +1,19 @@
 function [t,res] = sphericalPendulumAnim(l,z0,animate)
-%numerical integration of spherical pendulum allowing for variable length
-%as input and animating result
+% sphericalPendulum numerically integrates the equations of motion for a
+% spherica pendulum over a fixed time span and optionally animates the
+% results.
+%      
+% Inputs:
+%   l (float): Pendulum arm length (m)
+%   z0 (1x4 float): Initial conditions in order: phi, phidot, theta,
+%                   thetadot where phi and theta are the zenith and azimuth
+%                   angles, respectively (and dot represents derivative in
+%                   time).
+%   animate (bool): Set True to animate (defaults false)
+%
+% Outputs:
+%   t (1000x1 float): Array of times
+%   res (1000x4 float): Array of state values corresponding to each time
 
 if ~exist('animate','var') || isempty(animate)
    animate = false;
