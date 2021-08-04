@@ -1,3 +1,8 @@
+% Visualize the groundtrack of a 12 h Molniya orbit.  Requires mapping
+% toolbox.
+
+% Copyright (c) 2019 Dmitry Savransky (ds264@cornell.edu)
+
 earth = imread('landOcean.jpg');
 [x,y,z] = sphere(100);
 rotMats = DCMs();

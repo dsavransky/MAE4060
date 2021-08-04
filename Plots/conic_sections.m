@@ -1,3 +1,7 @@
+% Generate a visualization of conic sections.
+
+% Copyright (c) 2019 Dmitry Savransky (ds264@cornell.edu)
+
 th = linspace(0,2*pi,100);
 r= 1;
 h = 3;

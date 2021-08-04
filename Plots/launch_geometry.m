@@ -1,3 +1,7 @@
+% Generate a visualization of launch geometry
+
+% Copyright (c) 2019 Dmitry Savransky (ds264@cornell.edu)
+
 f1 = figure(1);
 clf(f1)
 
