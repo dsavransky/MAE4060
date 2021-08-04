@@ -1,3 +1,7 @@
+% Generate a visualization of the ecliptic and equatorial planes
+
+% Copyright (c) 2019 Dmitry Savransky (ds264@cornell.edu)
+
 R_E = 6378.1366*1000; %Earth radius (m)
 mAU = 149597870700; %AU in m
 

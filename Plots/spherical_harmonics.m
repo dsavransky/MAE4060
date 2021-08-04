@@ -1,4 +1,9 @@
-%%
+% Generate visualizations of sectoral, tesseral, and zonal spherical
+% harmonics 
+
+% Copyright (c) 2019 Dmitry Savransky (ds264@cornell.edu)
+
+
 earth = imread('landOcean.jpg');
 [x,y,z] = sphere(100);
 

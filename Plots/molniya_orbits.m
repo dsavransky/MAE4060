@@ -82,8 +82,9 @@ lats = atan2(sqrt(sum(rrot(1:2,:).^2,1)), rrot(3,:))-pi/2;
 f2 = figure(2);
 clf
 w = worldmap('World');
-cdat = load('coast');
-plotm(cdat.lat, cdat.long)
+cdat = load('coastlines'); %previously this was just coast.mat
+%plotm(cdat.lat, cdat.long) %refers to old coast.mat file
+plotm(cdat.coastlat, cdat.coastlon)
 hold on
 plotm(lats*180/pi,lons*180/pi,'r.','LineWidth',3)
 hold off

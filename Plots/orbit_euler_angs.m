@@ -1,5 +1,7 @@
 %script for generating correct orientations for orbit Euler angles figure
 
+% Copyright (c) 2016 Dmitry Savransky (ds264@cornell.edu)
+
 M = linspace(0,2*pi,1000);
 e = 0.3;
 a = 1;

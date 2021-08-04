@@ -1,3 +1,7 @@
+% Generate a visualization of nodal regression.  Based on Vallado (2013)
+
+% Copyright (c) 2019 Dmitry Savransky (ds264@cornell.edu)
+
 earth = imread('landOcean.jpg');
 [x,y,z] = sphere(100);
 %%

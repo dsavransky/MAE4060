@@ -1,5 +1,12 @@
 %function to generate nutation damper plots
 function nutationDamper(f,IsIt)
+% generate plots of spin for perturbed spacecraft with nutation damper
+%      
+% Inputs:
+%   f (int): Figure to plot in
+%   IsIt (float) Ratio of symmetry to transverse axis moi
+
+% Copyright (c) 2016 Dmitry Savransky (ds264@cornell.edu)
 
 if ~exist('f','var')
     f = 1;
@@ -19,7 +26,7 @@ z0 = [0.2, 2, 0, 0]; % rad/s
 [t,z] = ode45(@nutationDamper_eq,[0,400],z0);
 
 %plot
-f = figure(f)
+f = figure(f);
 clf
 set(f,'Position',[100 100 1000 600]);
 subplot(3,1,1)
