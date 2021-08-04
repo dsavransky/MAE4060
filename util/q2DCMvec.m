@@ -1,4 +1,16 @@
 function C = q2DCMvec(q)
+%Calculate direction cosine matrices from quaternions
+%
+%INPUT
+%   q (nx4 float): Quaternions, packaged as [v,r] (vector part first)
+%
+%OUTPUT
+%   C (3x3,n float): Direction cosine matrices
+%
+%NOTE
+%   Rotations are CCW positive - these are {}^B{C}^{I} matrices.
+
+% Copyright (c) 2019 Dmitry Savransky (ds264@cornell.edu)
 
 q1 = q(:,1);
 q2 = q(:,2);
