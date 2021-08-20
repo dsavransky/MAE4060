@@ -58,11 +58,12 @@ rphase = (aphase*(1 - ephase^2))./(1 + ephase*cos(nuphase));
 
 figure(1)
 clf
-plot(a*cos(th),a*sin(th),'b--')
+plot(a*cos(th),a*sin(th),'b--','Linewidth',2)
 hold on
-targ = plot(a*cos(th(1)+gam),a*sin(th(1)+gam),'b.','MarkerSize',60);
-intr = plot(a*cos(th(1)),a*sin(th(1)),'r.','MarkerSize',40);
-introrbit = plot(rphase.*cos(nuphase),rphase.*sin(nuphase),'r--');
+targ = plot(a*cos(th(1)+gam),a*sin(th(1)+gam),'b.','MarkerSize',80);
+intr = plot(a*cos(th(1)),a*sin(th(1)),'r.','MarkerSize',60);
+introrbit = plot(rphase.*cos(nuphase),rphase.*sin(nuphase),'r--',...
+    'Linewidth',2);
 axis equal off
 set(gca,'XLimMode','manual','YLimMode','manual')
 set(introrbit,'Visible','off')
@@ -77,7 +78,7 @@ for j = 2:forbind
 end
 
 set(introrbit,'Visible','on')
-dv1 = quiver(a*cos(th(j)),a*sin(th(j)),0,dvsign,'LineWidth',2);
+dv1 = quiver(a*cos(th(j)),a*sin(th(j)),0,dvsign,'color','k','LineWidth',3);
 pause(0.5)
 delete(dv1)
 
@@ -89,7 +90,7 @@ for k = 1:length(nuphase)
     pause(pint)
 end
 
-dv2 = quiver(a*cos(th(j)),a*sin(th(j)),0,-dvsign,'LineWidth',2);
+dv2 = quiver(a*cos(th(j)),a*sin(th(j)),0,-dvsign,'color','k','LineWidth',3);
 pause(0.5)
 delete(dv2)
 
