@@ -1,6 +1,6 @@
 function [t,res] = sphericalPendulumAnim(l,z0,animate)
 % sphericalPendulum numerically integrates the equations of motion for a
-% spherica pendulum over a fixed time span and optionally animates the
+% spherical pendulum over a fixed time span and optionally animates the
 % results.
 %      
 % Inputs:
@@ -43,7 +43,9 @@ if animate
     th = res(:,3);
     x = l*cos(th).*sin(ph);
     y = l*sin(th).*sin(ph);
-    z = -l*cos(ph); %we originally defined the frame downwards, so let's flip the z coordinate
+    %we originally defined the frame downwards, so let's flip the z
+    %coordinate: 
+    z = -l*cos(ph);
     
     
     cr = l/20;
@@ -51,7 +53,7 @@ if animate
         max([z+cr;0.1])]*1.1;
     
     %create and clear figure
-    h = figure(1);
+    h = figure();
     clf(h);
     
     % create the pendulum
