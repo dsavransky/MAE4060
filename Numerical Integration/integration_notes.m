@@ -23,7 +23,7 @@ dz1 = @(t,z) [z(2);
 z0 = [30*pi/180,0,0,1];   
 
 %integration time span options
-%this will allow the integrator to take whatever stesp it
+%this will allow the integrator to take whatever steps it
 %wants:
 %tspan = [0,30]; 
 %this will still allow the integrator to take whatever steps it wants, but
@@ -67,8 +67,6 @@ mean(abs( (res4(2:end,:)-res3(2:end,:))./res3(2:end,:) )*100) %percent error, pr
 %odeset() - to set options
 
 [t6,res6] = ode45(dz1,tspan,z0,odeset('RelTol',1e-12,'AbsTol',1e-12));
-
-
 [t7,res7] = ode45(dz1,tspan,z0,odeset('RelTol',1e-12));
 [t8,res8] = ode45(dz1,tspan,z0,odeset('AbsTol',1e-12));
 
@@ -81,4 +79,16 @@ En6 = En(res6(:,1),res6(:,2),res6(:,4),l,g); %reltol = abstol = 1e-12
 En7 = En(res7(:,1),res7(:,2),res7(:,4),l,g); %reltol=1e-12, default abstol
 En8 = En(res8(:,1),res8(:,2),res8(:,4),l,g); %abstol=1e-12, defatul reltol
 
-plot(t,En1,t,En4,t,En6,t,En7,t,En8)
+plot(tspan,En1,tspan,En4,tspan,En6,'--',tspan,En7,tspan,En8,'LineWidth',2)
+xlabel('Time (s)')
+ylabel('Energy (N m)')
+set(gca,'FontName','Times','FontSize',16)
+legend({'ODE45 Default', 'ODE113 Default', 'RelTol=AbsTol=1e-12',...
+    'RelTol=1e-12, AbsTol=1e-6', 'RelTol=1e-3, AbsTol=1e-12'},...
+    'Location','SouthWest')
+
+%% limit to 2nd best energy conservation
+ylim([min(En7),max(En7)])
+
+%% limit to best energy conservation
+ylim([min(En6),max(En6)])
