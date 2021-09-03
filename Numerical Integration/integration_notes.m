@@ -5,6 +5,9 @@
 
 % Copyright (c) 2020 Dmitry Savransky (ds264@cornell.edu)
 
+%This script is split into sections that are intended to be run one by one,
+%inspecting the results at each step (you can use the 'Run and Advance'
+%button in the MATLAB editor for this.
 %% define some constants
 g = 9.81; %m/s
 l = 1; %m
@@ -45,14 +48,16 @@ dz2 = @(t,z,g,l) [z(2);
             -2*z(4)*z(2)/tan(z(1))];
 dz3 = @(t,z) dz2(t,z,9.81,1);
 [t3,res3] = ode45(dz3,tspan,z0);
+sum(res3 - res1) %all zero again!
 
+%%
 %or, write a helper function with a nest integrator subfunction:
+%for more complex integrations with many parameters, this is usually the
+%best approach:
 [t3a,res3a] = sphericalPendulum(l,z0);
 
 %again the same result
-sum(res3 - res1) %all zero again!
 sum(res3a - res1) %all zero again!
-
 
 %%
 %now with a different integrator
@@ -61,7 +66,6 @@ sum(res3a - res1) %all zero again!
 sum(res4 - res1) %not zero!
 
 mean(abs( (res4(2:end,:)-res3(2:end,:))./res3(2:end,:) )*100) %percent error, pretty high actually
-
 
 %%
 %odeset() - to set options
