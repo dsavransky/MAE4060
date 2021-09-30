@@ -76,7 +76,7 @@ hold off
         h = z(3); %height above ground
         pos = [h,h-5000]; %zero crossing
         isterm = [1,0]; %halt
-        dir = [-1,0];    %look for decreasing events only
+        dir = [-1,0];    %look for decreasing events for 0 crossing and either direction for 5k crossing
     end
 
 
