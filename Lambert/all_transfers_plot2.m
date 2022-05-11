@@ -25,6 +25,8 @@ tmpth =  linspace(0,2*pi,500);
 depcircrad = c/3.5;
 depcirc = depcircrad*[cos(tmpth);sin(tmpth)]+repmat(r1v.',1,length(tmpth));
 
+bottom = -1.2;
+top = 2;
 %% minimum energy orbit
 am = (r1 + r2 + c)/4;
 s = 2*am; %equivalent to (r1 + r2 + c)/2
@@ -80,73 +82,97 @@ ellp1 = 4*(s-r1)*(s-r2)/c^2*(sqrt(s/2) + sqrt((s-c)/2))^2;
 ellp2 = 4*(s-r1)*(s-r2)/c^2*(sqrt(s/2) - sqrt((s-c)/2))^2;
 wp = acos((r2-r1)/c) - pi; %rotation of parabolae
 
-nu = linspace(-pi*0.75,pi*0.75,1000);
+nu = linspace(-126*pi/180,105*pi/180,1000);
 B2 = tan(nu/2).^2;
 rmag1 = ellp1/2*(1+B2);
 rp1 = rotMat(-wp)*[rmag1.*cos(nu);rmag1.*sin(nu)];
+[~,ind1] = min(sqrt((rp1(1,:) - r1v(1)).^2 + (rp1(2,:) - r1v(2)).^2));
+[~,ind2] = min(sqrt((rp1(1,:) - r2v(1)).^2 + (rp1(2,:) - r2v(2)).^2));
+inds = sort([ind1,ind2]);
+rp1r = rp1(:,1:inds(1)-1);
+rp1l = rp1(:,inds(2)+1:end);
+rp1mid = rp1(:,inds(1):inds(2));
+
+nu = linspace(-135*pi/180,145*pi/180,1000);
+B2 = tan(nu/2).^2;
 rmag2 = ellp2/2*(1+B2);
 rp2 = rotMat(wp)*[rmag2.*cos(nu);rmag2.*sin(nu)];
 
-% find intersections and truncate paths
-[rp1, rp1circ1, rp1circ2, rp1cinds] = ...
-    findLambertIntersections(r1v,r2v,depcirc,rp1);
-[rp2, rp2circ1, rp2circ2, rp2cinds] = ...
-    findLambertIntersections(r1v,r2v,depcirc,rp2);
+[~,ind1] = min(sqrt((rp2(1,:) - r1v(1)).^2 + (rp2(2,:) - r1v(2)).^2));
+[~,ind2] = min(sqrt((rp2(1,:) - r2v(1)).^2 + (rp2(2,:) - r2v(2)).^2));
+inds = sort([ind1,ind2]);
+rp2l = rp2(:,1:inds(1)-1);
+rp2r = rp2(:,inds(2)+1:end);
+rp2mid = rp2(:,inds(1):inds(2));
 
 %% departure regions (only shaded within local circl aroudn P1)
 
+% % H1 departure region is bounded by r_1/2 and rp1
+% [~,ind1] = min(rp1cinds); %looking for intersection closest to circle start
+% if ind1 == 1
+%     H1rp = rp1circ1;
+%     E3rp = rp1circ2;
+% else
+%     H1rp = rp1circ2;
+%     E3rp = rp1circ1;
+% end
+% H1 = [r1v.', r1v.' + [depcircrad; 0], depcirc(:,1:rp1cinds(ind1)),H1rp];
+% 
+% 
+% [~,ind2] = min(rmcinds); %again looking for closer one
+% if ind2 == 1
+%     E1rm = rmcirc1;
+%     E3rm = rmcirc2;
+% else
+%     E1rm = rmcirc2;
+%     E3rm = rmcirc1;
+% end
+% E1 = [r1v.', fliplr(H1rp), depcirc(:,rp1cinds(ind1):rmcinds(ind2)),E1rm];
+% 
+% % E2 is bounded by vmin and rp2
+% [~,ind3] = min(rp2cinds); %again looking for closer one
+% if ind3 == 1
+%     E2rp = rp2circ1;
+%     E4rp = rp2circ2;
+% else
+%     E2rp = rp2circ2;
+%     E4rp = rp2circ1;
+% end
+% E2 = [r1v.', fliplr(E1rm), depcirc(:,rmcinds(ind2):rp2cinds(ind3)), E2rp];
+% 
+% % E3 is bounded by rp1 and vmin
+% E3 = [r1v.', E3rp, depcirc(:,rp1cinds(3-ind1):rmcinds(3-ind2)), fliplr(E3rm)];
+% 
+% % E4 is bounded by vmin and rp2
+% E4 = [r1v.', E3rm, depcirc(:,rmcinds(3-ind2):rp2cinds(3-ind3)), fliplr(E4rp)];
+% 
+% % finally, H2 is bounded by rp2 and r1
+% [x0,y0,~,cind] = intersections([0,r1v(1)],[0,r1v(2)],depcirc(1,:),depcirc(2,:));
+% H2 = [r1v.', E4rp, depcirc(:,rp2cinds(3-ind3):round(cind)), r1v.'];
+
+%% alt departure regions  (shaded throuhgout whole trajectory region)
+
 % H1 departure region is bounded by r_1/2 and rp1
-[~,ind1] = min(rp1cinds); %looking for intersection closest to circle start
-if ind1 == 1
-    H1rp = rp1circ1;
-    E3rp = rp1circ2;
-else
-    H1rp = rp1circ2;
-    E3rp = rp1circ1;
-end
-H1 = [r1v.', r1v.' + [depcircrad; 0], depcirc(:,1:rp1cinds(ind1)),H1rp];
-
+H1 = [r1v.', r2v.' , rp1mid];
 % E1 is bounded by rp1 and vmin
-[~,ind2] = min(rmcinds); %again looking for closer one
-if ind2 == 1
-    E1rm = rmcirc1;
-    E3rm = rmcirc2;
-else
-    E1rm = rmcirc2;
-    E3rm = rmcirc1;
-end
-E1 = [r1v.', fliplr(H1rp), depcirc(:,rp1cinds(ind1):rmcinds(ind2)),E1rm];
-
+E1 = [fliplr(rp1mid),rm1];
 % E2 is bounded by vmin and rp2
-[~,ind3] = min(rp2cinds); %again looking for closer one
-if ind3 == 1
-    E2rp = rp2circ1;
-    E4rp = rp2circ2;
-else
-    E2rp = rp2circ2;
-    E4rp = rp2circ1;
-end
-E2 = [r1v.', fliplr(E1rm), depcirc(:,rmcinds(ind2):rp2cinds(ind3)), E2rp];
-
+E2 = [fliplr(rp2l),fliplr(rp2r),rm1];
 % E3 is bounded by rp1 and vmin
-E3 = [r1v.', E3rp, depcirc(:,rp1cinds(3-ind1):rmcinds(3-ind2)), fliplr(E3rm)];
-
+E3 = [rp1l, rp1r, fliplr(rm2)];
 % E4 is bounded by vmin and rp2
-E4 = [r1v.', E3rm, depcirc(:,rmcinds(3-ind2):rp2cinds(3-ind3)), fliplr(E4rp)];
-
-% finall, H2 is bounded by rp2 and r1
-[x0,y0,~,cind] = intersections([0,r1v(1)],[0,r1v(2)],depcirc(1,:),depcirc(2,:));
-H2 = [r1v.', E4rp, depcirc(:,rp2cinds(3-ind3):round(cind)), r1v.'];
-
+E4 = [rm2,fliplr(rp2mid)];
+% finally, H2 is bounded by rp2 and r1 and r2
+H2 = [r1v.',[0;0],r2v.',rp2mid];
 %% plot 
 H1color = [255,140,0]/255;
 H2color = [85,107,47]/255;
 rpcolor = [255, 0, 189]/255;
 
-f = figure(1);
+f = figure(2);
 clf
 f.Position = [319   448  840 630];
-genInitTriangleFig(r1v,r2v,1) %system steup
+genInitTriangleFig(r1v,r2v,2) %system steup
 hold on
 
 %foci hyporbolae:
@@ -164,49 +190,42 @@ plot(F0(1),F0(2),'.','Color',H1color,'MarkerSize',30)
 p3 = plot(rm(1,:),rm(2,:),'b','LineWidth',2);
 
 %parabolae:
-p4 = plot(rp1(1,:),rp1(2,:),rp2(1,:),rp2(2,:),E2rp(1,:),...
-    E2rp(2,:),E3rp(1,:),E3rp(2,:),'LineWidth',2,'Color',rpcolor);
+p4 = plot(rp1(1,:),rp1(2,:),rp2(1,:),rp2(2,:),'LineWidth',2,'Color',rpcolor);
 
 % departure regions
 deps = fill(H1(1,:),H1(2,:),H1color, E1(1,:),E1(2,:),'b',...
-    E2(1,:),E2(2,:),'r',E3(1,:),E3(2,:),'b', E4(1,:),E4(2,:),'r',...
-    H2(1,:),H2(2,:),H2color, 'Edgecolor','none');
+    E2(1,:),E2(2,:),'r', E3(1,:),E3(2,:),'b', E4(1,:),E4(2,:),'r',...
+    H2(1,:),H2(2,:),H2color,'Edgecolor','none','FaceAlpha',0.3);
 uistack([p1;p2;p3;p4;deps],'bottom') 
-
+axis([-2,3,-1.2,2])
 hold off
 
 %% annotate
 shim = max(diff(axis))*0.02/3;
 text(Fsm(1)+shim,Fsm(2)+shim,'$$F^\star_m$$','HorizontalAlignment','left',...
-    'VerticalAlignment','bottom','Color','b')
+    'VerticalAlignment','bottom')
 text(F0(1)+shim,F0(2)+shim,'$$F^\star_0$$','HorizontalAlignment','left',...
-    'VerticalAlignment','top','Color',H1color)
+    'VerticalAlignment','top')
 text(rhyp(1,50)+shim,rhyp(2,50),'$$E_1,E_3$$',...
     'HorizontalAlignment','left','Color','b')
 text(rhyp(1,end-50)+shim,rhyp(2,end-50),'$$E_2, E_4$$',...
     'HorizontalAlignment','left','Color','r')
-text(lhyp(1,50)+shim,lhyp(2,50),'$$H_2$$',...
+text(lhyp(1,40)+shim,lhyp(2,40),'$$H_2$$',...
     'HorizontalAlignment','left','Color',H2color)
 text(lhyp(1,end-50)+shim, lhyp(2,end-50),'$$H_1$$',...
     'HorizontalAlignment','left','Color',H1color)
-tmp = round(mean([1,rp1cinds(ind1)]));
-text(depcirc(1,tmp),depcirc(2,tmp),'$$H_1$$','HorizontalAlignment',...
-    'left','Color',H1color)
-tmp = round(mean([rp1cinds(ind1),rmcinds(ind2)]));
-text(depcirc(1,tmp),depcirc(2,tmp)-shim,'$$E_1$$','HorizontalAlignment',...
-    'left','VerticalAlignment','bottom','Color','b')
-tmp = round(mean([rmcinds(ind2),rp2cinds(ind3)]));
-text(depcirc(1,tmp),depcirc(2,tmp),'$$E_2$$','HorizontalAlignment',...
-    'center','VerticalAlignment','bottom','Color','r')
-tmp = round(mean([rp1cinds(3-ind1),rmcinds(3-ind2)]));
-text(depcirc(1,tmp),depcirc(2,tmp),'$$E_3$$','HorizontalAlignment',...
-    'right','VerticalAlignment','top','Color','b')
-tmp = round(mean([rmcinds(3-ind2),rp2cinds(3-ind3)]));
-text(depcirc(1,tmp),depcirc(2,tmp),'$$E_4$$','HorizontalAlignment',...
-    'center','VerticalAlignment','top','Color','r')
-tmp = round(mean([rp2cinds(3-ind3),round(cind)]));
-text(depcirc(1,tmp),depcirc(2,tmp),'$$H_2$$','HorizontalAlignment',...
-    'left','VerticalAlignment','top','Color',H2color)
+text((r1v(1) + r2v(1))/2,(max(rp1(2,:))+r1v(2))/2,'$$H_1$$',...
+    'HorizontalAlignment','center','VerticalAlignment','middle','Color',H1color)
+text((r1v(1) + r2v(1))/2,(max(rm1(2,:))+max(rp1(2,:)))/2,'$$E_1$$',...
+    'HorizontalAlignment','left','VerticalAlignment','middle','Color','b')
+text(rp2(1,end-40),(rp2(2,end-40)+top)/2,'$$E_2$$',...
+    'HorizontalAlignment','left','VerticalAlignment','middle','Color','r')
+text(rp1(1,125),(rp1(2,125)+bottom)/2,'$$E_3$$',...
+    'HorizontalAlignment','left','VerticalAlignment','middle','Color','b')
+text((r1v(1) + r2v(1))/2,(min(rm2(2,:))+min(rp2(2,:)))/2,'$$E_4$$',...
+    'HorizontalAlignment','left','VerticalAlignment','middle','Color','r')
+text((r1v(1) + r2v(1))/2,min(rp2(2,:))/2,'$$H_2$$',...
+    'HorizontalAlignment','center','VerticalAlignment','bottom','Color',H2color)
 tmp = (r1v+r2v)/2;
 text(tmp(1),tmp(2),'$$v = \infty$$','HorizontalAlignment',...
     'center','VerticalAlignment','top','Color',H1color)
@@ -222,3 +241,4 @@ text(rm(1,ind),rm(2,ind),'$$v = v_{min}$$','HorizontalAlignment',...
 [~,ind] = min(rm(2,:));
 text(rm(1,ind),rm(2,ind),'$$v = v_{min}$$','HorizontalAlignment',...
     'center','VerticalAlignment','top','Color','b')
+ 
