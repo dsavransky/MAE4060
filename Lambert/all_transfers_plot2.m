@@ -171,7 +171,7 @@ rpcolor = [255, 0, 189]/255;
 
 f = figure(2);
 clf
-f.Position = [319   448  840 630];
+f.Position = [ -428        1011        1546        1286];
 genInitTriangleFig(r1v,r2v,2) %system steup
 hold on
 
@@ -197,7 +197,8 @@ deps = fill(H1(1,:),H1(2,:),H1color, E1(1,:),E1(2,:),'b',...
     E2(1,:),E2(2,:),'r', E3(1,:),E3(2,:),'b', E4(1,:),E4(2,:),'r',...
     H2(1,:),H2(2,:),H2color,'Edgecolor','none','FaceAlpha',0.3);
 uistack([p1;p2;p3;p4;deps],'bottom') 
-axis([-2,3,-1.2,2])
+axis([-2,4.25,-1.2,2])
+set(gca,'position',[0 0 1 1])
 hold off
 
 %% annotate

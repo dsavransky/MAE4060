@@ -1,4 +1,8 @@
-function [path1,path2] = vacFocus2transfer(r1v,r2v,Fvac,hyp)
+function [path1,path2] = vacFocus2transfer(r1v,r2v,Fvac,col,hyp)
+
+if ~exist('col','var') || isempty(col)
+    col = 'k';
+end
 
 if ~exist('hyp','var')
     hyp = false;
@@ -31,7 +35,7 @@ r = [rmag.*cos(nu);rmag.*sin(nu);zeros(size(rmag))];
 path1 = rotMats{3}(-w)*r;
 
 if ~hyp
-    nu = linspace(nu2,nu1+2*pi,100);
+    nu = linspace(nu2,nu1+2*pi,500);
     rmag = ell./(1 + e*cos(nu));
     r = [rmag.*cos(nu);rmag.*sin(nu);zeros(size(rmag))];
     path2 = rotMats{3}(-w)*r;
@@ -39,6 +43,8 @@ else
     path2 = [];
 end
 
-plot(Fvac(1),Fvac(2),'.','MarkerSize',20)
-plot(path1(1,:),path1(2,:))
-if ~hyp,plot(path2(1,:),path2(2,:));end
+hold on
+plot(Fvac(1),Fvac(2),'.','Color',col,'MarkerSize',20)
+plot(path1(1,:),path1(2,:),'Color',col,'Linewidth',2)
+if ~hyp,plot(path2(1,:),path2(2,:),'Color',col,'Linewidth',2);end
+hold off
