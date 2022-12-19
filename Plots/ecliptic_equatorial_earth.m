@@ -79,6 +79,7 @@ sun = light('Position',rsun(:,1),'Style','local'); %light is effective point sou
 axis equal
 view(60,10)
 
+%%
 th = linspace(0,2*pi,100);
 circ = [cos(th);sin(th);zeros(1,length(th))];
 
