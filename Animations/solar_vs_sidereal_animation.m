@@ -143,5 +143,6 @@ if ndays > 0
         set(g,'Matrix',makehgtform('zrotate',w_e*t(j)))
         pause(1/30)
         set(sun,'Position',rsun(:,j))
+        axis([-1.5,1.5,-1.5,1.5,-1.5,1.5])
     end
 end
